@@ -18,6 +18,17 @@ const cactusImages = [
   "imgs/garbage3.png",
   "imgs/garbage4.png",
   "imgs/garbage5.png",
+  "imgs/bush.png",
+  "imgs/bush2.png",
+  "imgs/cactus3.png",
+  "imgs/cactus4.png",
+  "imgs/fence.png",
+  "imgs/ledder.png",
+  "imgs/roadBlock.png",
+  "imgs/rock.png",
+  "imgs/tree.png",
+  "imgs/tree_trunk.png",
+  "imgs/truck.png",
   // Add more image URLs as needed
 ]
 

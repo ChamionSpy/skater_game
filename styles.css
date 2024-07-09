@@ -10,11 +10,17 @@ body {
   align-items: center;
   min-height: 100vh;
   font-family: 'Baloo 2', cursive;
+  
 }
 
 .world {
   overflow: hidden;
   position: relative;
+  background-image: url('imgs/greyMountain.jpg');
+  background-size: cover; /* Adjust as needed */
+  background-position: center; /* Adjust as needed */
+  /* Optional: Add a background color */
+  background-color: #f0f0f0;
 }
 
 .score {
@@ -51,7 +57,7 @@ body {
   left: calc(var(--left) * 1%)
 }
 
-.dino {
+.skater {
   --bottom: 0;
   position: absolute;
   left: 10%;
