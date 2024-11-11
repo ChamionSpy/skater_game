@@ -10,27 +10,23 @@ const CACTUS_INTERVAL_MAX = 2000
 const MIN_DISTANCE_BETWEEN_CACTI = 200 // Minimum distance between cacti
 const worldElem = document.querySelector("[data-world]")
 
-// Array of image URLs
-const cactusImages = [
-  "imgs/garbage.png",
-  "imgs/garbage1.png",
-  "imgs/garbage2.png",
-  "imgs/garbage3.png",
-  "imgs/garbage4.png",
-  "imgs/garbage5.png",
-  "imgs/bush.png",
-  "imgs/bush2.png",
-  "imgs/cactus3.png",
-  "imgs/cactus4.png",
-  "imgs/fence.png",
-  "imgs/ledder.png",
-  "imgs/roadBlock.png",
-  "imgs/rock.png",
-  "imgs/tree.png",
-  "imgs/tree_trunk.png",
-  "imgs/truck.png",
-  // Add more image URLs as needed
-]
+// Array of shape classes
+const cactusShapes = [
+  // "circle",
+  // "square",
+  // "triangle",
+  // "rectangle",
+  // "pentagon",
+  // "hexagon",
+  // "octagon",
+  // "star",
+  // "parallelogram",  // Added parallelogram
+  // "trapezoid",      // Added trapezoid
+  // "rhombus",        // Added rhombus
+  "heart",          // Added heart
+  // "diamond",       // Added crescent
+];
+
 
 let nextCactusTime
 
@@ -64,16 +60,18 @@ export function getCactusRects() {
 }
 
 function createCactus() {
-  const cactus = document.createElement("img")
+  const cactus = document.createElement("div")
   cactus.dataset.cactus = true
 
-  // Randomly select an image URL from cactusImages array
-  const randomIndex = Math.floor(Math.random() * cactusImages.length)
-  cactus.src = cactusImages[randomIndex]
-  cactus.classList.add("cactus")
+  // Randomly select a shape class from cactusShapes array
+  const randomIndex = Math.floor(Math.random() * cactusShapes.length)
+  cactus.classList.add(cactusShapes[randomIndex], "cactus")
 
   // Set initial position
   let leftPosition = 100
+
+  // Get the dimensions of the new cactus
+  const cactusWidth = cactus.offsetWidth
 
   // Check existing cacti positions
   const existingRects = getCactusRects()
@@ -81,17 +79,13 @@ function createCactus() {
   do {
     overlap = false
     for (const rect of existingRects) {
-      if (leftPosition >= rect.right + MIN_DISTANCE_BETWEEN_CACTI) {
-        // Ensure new cactus is placed MIN_DISTANCE_BETWEEN_CACTI pixels to the right of the existing cactus
-        overlap = false
-        break
-      } else if (leftPosition <= rect.left - MIN_DISTANCE_BETWEEN_CACTI) {
-        // Ensure new cactus is placed MIN_DISTANCE_BETWEEN_CACTI pixels to the left of the existing cactus
-        overlap = false
-        break
-      } else {
-        // If overlap, adjust leftPosition
-        leftPosition += MIN_DISTANCE_BETWEEN_CACTI
+      // Check if the new cactus will overlap with any existing cactus
+      if (
+        leftPosition + cactusWidth + MIN_DISTANCE_BETWEEN_CACTI > rect.left &&
+        leftPosition < rect.right - MIN_DISTANCE_BETWEEN_CACTI
+      ) {
+        // If overlap, adjust leftPosition to ensure the new cactus is placed farther
+        leftPosition = rect.right + MIN_DISTANCE_BETWEEN_CACTI
         overlap = true
         break
       }
@@ -101,6 +95,7 @@ function createCactus() {
   setCustomProperty(cactus, "--left", leftPosition)
   worldElem.append(cactus)
 }
+
 
 function randomNumberBetween(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)
